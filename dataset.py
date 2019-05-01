@@ -24,6 +24,7 @@ class Dataset:
     def generate_vectors(self, length=16):
         """
         Generates the data for the xor as array of vectors.
+        Same number of each target in output vectors.
 
         Vectors in form (v1, v2, t1) where v1, v2 are the two inputs, and t1 is the target output.
         Noise of the data determined by the noise value set for this class.
@@ -32,6 +33,7 @@ class Dataset:
         ----------
         length : int
             The number of vectors in training data (default is 16)
+            Length must be divisible by 4 for it to return the given number
 
         Returns
         -------
@@ -40,25 +42,17 @@ class Dataset:
         list
             A list of labels (0 or 1) containing the target result
         """
+        # Base x and y for xor
+        init_x = [[0, 0],[0, 1],[1, 0],[1, 1]]
+        init_y = [0, 1, 1, 0]
 
-        def get_label(px, py):
-            if ((px > 0.5 and py > 0.5) or (px < 0.5 and py < 0.5)):
-                return 0
-            else:
-                return 1
+        # Generate same number of each vector with added noise
+        x = np.repeat(init_x, [length//4], axis=0)
+        y = np.repeat(init_y, [length//4], axis=0)
+        noise = np.random.normal(loc=0, scale=self.noise, size=(len(x), 2))
+        points = x + noise
 
-        points = np.zeros([length, 2])
-        labels = np.zeros(length).astype(int)
-
-        for i in range(length):
-            x = np.random.uniform(0, 1)
-            y = np.random.uniform(0, 1)
-            noise_x = np.random.normal(0, self.noise)
-            noise_y = np.random.normal(0, self.noise)
-            labels[i] = get_label(x + noise_x, y + noise_y)
-            points[i] = (x, y)
-
-        return points, labels
+        return points, y
 
 
 def test(noise=0.25, length=16):
