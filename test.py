@@ -60,16 +60,24 @@ def add_results_to_store(store, length, hidden, all_test_loss, all_test_acc):
     """
     avg_loss = np.mean(all_test_loss)
     std_loss = np.std(all_test_loss)
+    min_loss = np.min(all_test_loss)
+    max_loss = np.max(all_test_loss)
     avg_acc = np.mean(all_test_acc)
     std_acc = np.std(all_test_acc)
+    min_acc = np.min(all_test_acc)
+    max_acc = np.max(all_test_acc)
 
     results_dict = dict(zip(store.cols, [
             length,
             hidden,
             avg_loss,
             std_loss,
+            min_loss,
+            max_loss,
             avg_acc,
-            std_acc
+            std_acc,
+            min_acc,
+            max_acc
         ]))
 
     return store.add_result(results_dict)
@@ -101,8 +109,12 @@ if __name__ == '__main__':
             'Hidden_Neurons',
             'Avg_Test_Loss',
             'Std_Test_Loss',
+            'Min_Test_Loss',
+            'Max_Test_Loss',
             'Avg_Test_Acc',
-            'Std_Test_Acc'
+            'Std_Test_Acc',
+            'Min_Test_Acc',
+            'Max_Test_Acc',
         ]
 
     # Initialise storage to hold the results
@@ -145,7 +157,7 @@ if __name__ == '__main__':
 
     # Generate training and test data
     train_data = Dataset(noise=TRAIN_NOISE)
-    test_data = Dataset(noise=0.00)
+    test_data = Dataset(noise=0.)
     test_X, test_y = test_data.generate_vectors(64)
 
     # --------------- RUN ALL TESTS ---------------------
