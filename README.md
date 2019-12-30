@@ -26,6 +26,11 @@ The models used are artificial neural networks. With the following specification
 
 ## Results
 
-![](images/heatmaps_0.5_10000_1.png)
+-   Running 10 tests for each model with 1000 epochs of training
+-   Each with a different number of training vectors
 
-![](images/loss_boxplots_0.5_10000_1.png)
+![](images/heatmaps_0.2_1000_10.png)
+
+![](images/convergence_graphs_0.2_1000_10.png)
+
+![](images/loss_boxplots_0.2_1000_10.png)
